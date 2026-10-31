@@ -12,25 +12,29 @@
 						"referenceName": "bronze_paradas_csv",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "csv"
 				},
 				{
 					"dataset": {
 						"referenceName": "bronze_paradas_sql",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "sql"
 				},
 				{
 					"dataset": {
 						"referenceName": "bronze_paradas_2022_xls",
 						"type": "DatasetReference"
 					},
-					"name": "source3"
+					"name": "xls"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          nro_parada as string,",
@@ -44,7 +48,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     ignoreNoFilesFound: false) ~> csv",
 				"source(output(",
 				"          AnioFuente as integer,",
 				"          ParadaHistoricaId as string,",
@@ -60,7 +64,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
+				"     format: 'table') ~> sql",
 				"source(output(",
 				"          nro_parada as string,",
 				"          nombre_parada as string,",
@@ -73,7 +77,19 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source3"
+				"     ignoreNoFilesFound: false) ~> xls",
+				"csv select(mapColumn(",
+				"          {ParadaHistoricaId } = nro_parada,",
+				"          NombreParada = nombre_parada,",
+				"          Zona = zona,",
+				"          Latitud = latitud,",
+				"          Longitud = longitud,",
+				"          { VigenciaDesde} = fecha_desde,",
+				"          {  VigenciaHasta  } = fecha_hasta,",
+				"          Estado = estado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
