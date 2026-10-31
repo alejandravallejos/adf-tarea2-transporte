@@ -1,5 +1,5 @@
 {
-	"name": "bronze_rutsas_2022_xls",
+	"name": "bronze_rutas_2022_xls",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "sa_transporte",
@@ -17,28 +17,36 @@
 				"fileName": "operacion_2022.xlsx",
 				"folderPath": "Datos_xls",
 				"fileSystem": "raw"
-			}
+			},
+			"firstRowAsHeader": true
 		},
 		"schema": [
 			{
+				"name": "cod_ruta",
 				"type": "String"
 			},
 			{
+				"name": "nombre_ruta",
 				"type": "String"
 			},
 			{
+				"name": "origen",
 				"type": "String"
 			},
 			{
+				"name": "destino",
 				"type": "String"
 			},
 			{
+				"name": "fecha_desde",
 				"type": "String"
 			},
 			{
+				"name": "fecha_hasta",
 				"type": "String"
 			},
 			{
+				"name": "estado",
 				"type": "String"
 			}
 		]
